@@ -1,0 +1,179 @@
+<!--<!DOCTYPE html>-->
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <!--<meta name="viewport" content="width=device-width, initial-scale=0.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"/>-->
+    <title>Title</title>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://lf9-cdn-tos.bytecdntp.com/cdn/expire-1-M/element-ui/2.2.0/theme-chalk/index.css" />
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_3045003_lkxtjaj4m6.css" />
+    <link rel="stylesheet" href="js/rotation3D/rotation3D.css" />
+    <style>
+      body {
+        background-color: #292a38;
+      }
+      #app {
+        min-width: 360px;
+        height: 100%;
+        padding: 1em;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+      }
+      .rotation3d-wrap {
+        /* width: 80%;
+        height: 100%; */
+        /* height: 200px; */
+        width: 300px;
+        height: 200px;
+        transform-origin: center;
+      }
+      .rotation3D-baseMap {
+        position: relative;
+        margin: auto;
+        width: 100%;
+        height: 100%;
+        background: center 62% / contain no-repeat url("js/rotation3D/img/baseMap.png");
+      }
+      .rotation3D-baseMap .index-title {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        font-size: 22px !important;
+        transform: translate(-50%, -100%);
+        color: #fff;
+        font-size: 40px;
+        margin: 0;
+        z-index: 99;
+      }
+      .rotation3D-baseMap .rotation-3d-wrap {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 100%;
+        height: 100%;
+        transform: translate(-50%, -50%);
+      }
+      /* .rotation3D-baseMap::before {
+        position: absolute;
+        left: -12px;
+        right: 0;
+        top: 0;
+        margin: auto;
+        z-index: 99;
+        width: 342px;
+        height: 318px;
+        display: block;
+        content: "";
+        background: url("js/rotation3D/img/baseLogo.png");
+        animation: 10s bounceUpDown infinite;
+      } */
+    </style>
+  </head>
+  <body>
+    <div id="app" v-cloak>
+      <div class="rotation3d-wrap">
+        <!--底座-->
+        <div class="rotation3D-baseMap">
+          <h1 class="index-title">{{ showIndex }}</h1>
+          <div class="rotation-3d-wrap">
+            <!--旋转3D-->
+            <div id="rotation3D" class="rotation3D">
+              <button class="center">中心</button>
+
+              <div class="itemList">
+                <div class="rotation3D__item" :class="item.type" v-for="(item, index) in itemList" :key="index">
+                  <div class="scale">
+                    <div class="baseImg"></div>
+                    <div class="cont">
+                      <!-- <i class="iconfont" :class="item.icon"></i> -->
+                      <div class="label-index">{{ index + 1 }}</div>
+                      <p class="label-name">{{item.name}}</p>
+                      <div class="label-count">{{ item.count }}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="lineList">
+                <div class="rotation3D__line" v-for="item in itemList" :class="item.type">
+                  <div v-if="item.type=='blue'" class="pos">
+                    <svg width="10" height="400">
+                      <path id="path1" d="M0 400, 0 0" stroke-dasharray="5,10" />
+                    </svg>
+                    <!-- <div class="dot dot1 el-icon-caret-right"></div> -->
+                  </div>
+                  <div v-if="item.type=='yellow'" class="pos">
+                    <svg width="10" height="400">
+                      <path id="path2" d="M0 400, 0 0" stroke-dasharray="5,10" />
+                    </svg>
+                    <!-- <div class="dot dot2"><i class="el-icon-close"></i></div> -->
+                  </div>
+                  <div v-if="item.type=='green'" class="pos">
+                    <!-- <div v-if="item.type=='green'" class="pos" style="left: -16px"> -->
+                    <svg width="10" height="400">
+                      <path id="path2" d="M0 400, 0 0" stroke-dasharray="5,10" />
+                    </svg>
+                    <!-- <svg width="50" height="400">
+                      <path id="path3" d="M20 400 S 0 200, 20 0" stroke-dasharray="5,10" />
+                      <path id="path4" d="M20 400 S 40 200, 20 0" stroke-dasharray="5,10" />
+                    </svg> -->
+                    <!-- <div class="dot dot3 el-icon-caret-right"></div> -->
+                    <!-- <div class="dot dot4 el-icon-caret-right"></div> -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script src="https://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+  <script src="https://www.jq22.com/jquery/vue2.6.10.min.js"></script>
+  <script src="js/rotation3D/rotation3D.js"></script>
+  <script>
+    var app = new Vue({
+      el: "#app",
+      //数据
+      data: {
+        rotateInstance: null,
+        itemList: [
+          { name: "织布", count: 13476, type: "blue", icon: "icon-renyuanguanli" },
+          { name: "染整", count: 12569, type: "yellow", icon: "icon-GPS" },
+          { name: "裁剪", count: 14471, type: "blue", icon: "icon-a-lujishigong2x" },
+          { name: "缝制", count: 12539, type: "green", icon: "icon-shujufuwuzhongxin" },
+          // { name: "包装", count: 56716, type: "blue", icon: "icon-liangchang" },
+          // { name: "包装", count: 56716, type: "blue", icon: "icon-liangchang" },
+        ],
+      },
+      computed: {
+        showIndex: function () {
+          const curIndex = this.rotateInstance?.currentIndex;
+          if (curIndex === "undefined") return "";
+          if (curIndex < 9) {
+            return `0${curIndex + 1}`;
+          } else {
+            return curIndex + 1;
+          }
+        },
+      },
+      mounted: function () {
+        const r = new Rotation3D({
+          id: "#rotation3D",
+          farScale: 0.5,
+          // farScale: 1,
+          xRadius: 60, //x半径压缩
+          yRadius: 65, //y半径压缩
+          // yRadius: 0,  //y半径压缩
+          autoPlay: false,
+          autoPlayDelay: 3000,
+        });
+        this.rotateInstance = r;
+      },
+
+      methods: {},
+    });
+  </script>
+</html>
